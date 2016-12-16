@@ -18,22 +18,29 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder{
     if(self = [super initWithCoder:aDecoder]){
+        
+        // 垂直的线 圆点上部
         verticalLineTopView = [[UIView alloc] init];
         verticalLineTopView.backgroundColor = [UIColor grayColor];
         [self addSubview:verticalLineTopView];
         
+        // 圆点
         int dotViewRadius = 5;
         dotView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, dotViewRadius * 2, dotViewRadius * 2)];
         dotView.backgroundColor = [UIColor orangeColor];
         dotView.layer.cornerRadius = dotViewRadius;
         [self addSubview:dotView];
         
+        // 垂直的线 圆点下部
         verticalLineBottomView = [[UIView alloc] init];
         verticalLineBottomView.backgroundColor = [UIColor grayColor];
         [self addSubview:verticalLineBottomView];
         
+        
+        // 气泡框
         showLab = [[UIButton alloc] init];
         UIImage *img = [UIImage imageNamed:@"AttenceTimelineCellMessage2"];
+        // 设置拉伸区域
         img = [img stretchableImageWithLeftCapWidth:20 topCapHeight:20];
         [showLab setBackgroundImage:img forState:UIControlStateNormal];
         showLab.titleLabel.font = ShowLabFont;
@@ -55,7 +62,11 @@
 }
 
 - (void)setDataSource:(NSString *)content isFirst:(BOOL)isFirst isLast:(BOOL)isLast {
-    showLab.frame = CGRectMake(DotViewCentX - VerticalLineWidth/2.0 + 5, ShowLabTop, ShowLabWidth, [AttenceTimelineCell cellHeightWithString:content isContentHeight:YES]);
+    showLab.frame = CGRectMake(
+                               DotViewCentX - VerticalLineWidth/2.0 + 5,
+                               ShowLabTop,
+                               ShowLabWidth,
+                               [AttenceTimelineCell cellHeightWithString:content isContentHeight:YES]);
     [showLab setTitle:content forState:UIControlStateNormal];
     
     verticalLineTopView.hidden = isFirst;
@@ -68,8 +79,14 @@
 }
 
 + (float)cellHeightWithString:(NSString *)content isContentHeight:(BOOL)b{
-    float height = [content sizeWithFont:ShowLabFont constrainedToSize:CGSizeMake(ShowLabWidth - 20, 100)].height;
-    return (b ? height : (height + ShowLabTop * 2)) + 15;
+//    float height = [content sizeWithFont:ShowLabFont
+//                       constrainedToSize:CGSizeMake(ShowLabWidth - 20, 100)].height;
+//    return (b ? height : (height + ShowLabTop * 2)) + 15;
+    NSString * str = [NSString stringWithFormat:@"%@", content];
+    float height2 = [str boundingRectWithSize:CGSizeMake(ShowLabWidth - 20, 200)
+                                         options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:ShowLabFont} context:nil].size.height;
+    
+    return (b ? height2 : (height2 + ShowLabTop * 2)) + 15;;
 }
 
 - (void)awakeFromNib

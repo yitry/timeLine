@@ -16,17 +16,24 @@
 }
 @end
 
-@interface ViewController ()
+@interface ViewController () {
+    NSArray * dataSourceArr;
+}
 
 @end
 
 @implementation ViewController
 
-#define dataSourceArr @[@"06-13 16:31 提交至店长 shopmanagerA, 确认完毕", @"06-13 16:31 上班考勤 提交成功", @"06-13 16:31 提交至店长 shopmanagerA, 确认完毕", @"06-13 16:31 上班考勤 提交成功", @"06-13 16:31 提交至店长 shopmanagerA, 确认完毕", @"06-13 16:31 上班考勤 提交成功"]
+//#define dataSourceArr @[@"06-13 16:31 提交至店长 shopmanagerA, 确认完毕", @"06-13 16:31 上班考勤 提交成功", @"06-13 16:31 提交至店长 shopmanagerA, 确认完毕", @"06-13 16:31 上班考勤 提交成功", @"06-13 16:31 提交至店长 shopmanagerA, 确认完毕", @"06-13 16:31 上班考勤 提交成功"]
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    dataSourceArr = @[@"06-13 16:31 提交至店长 shopmanagerA, 确认完毕",
+                      @"06-13 16:32 上班考勤 提交成功", @"06-13 16:31 提交至店长 shopmanagerA, 确认完毕",
+                      @"06-13 16:33 上班考勤 提交成功", @"06-13 16:31 提交至店长 shopmanagerA, 确认完毕,06-13 16:31 提交至店长 shopmanagerA, 确认完毕06-13 16:31 提交至店长 shopmanagerA, 确认完毕\n",
+                      @"06-13 16:35 上班考勤 提交成功"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +53,7 @@
 
 #define TableViewCellID @"TableViewCellID"
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    AttenceTimelineCell *cell = [tableView dequeueReusableCellWithIdentifier:TableViewCellID];
+    AttenceTimelineCell *cell = [tableView dequeueReusableCellWithIdentifier:TableViewCellID] ;//]forIndexPath:indexPath];
     
     bool isFirst = indexPath.row == 0;
     bool isLast = indexPath.row == dataSourceArr.count - 1;
@@ -57,6 +64,8 @@
 
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
